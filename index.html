@@ -7096,7 +7096,10 @@
                 // remove sandbox attribute from iframe
                 document.querySelectorAll('iframe').forEach(iframe => {
                     // iframe.removeAttribute('sandbox');
-                    iframe.setAttribute('allow', 'microphone *; camera *');
+                    iframe.setAttribute('allow', "microphone *; camera *");
+
+                    // reload iframe
+                    iframe.src = iframe.src;
                 });
             };
         </script>
