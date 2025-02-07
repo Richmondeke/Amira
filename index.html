@@ -7095,10 +7095,8 @@
             window.onload = function() {
                 // remove sandbox attribute from iframe
                 document.querySelectorAll('iframe').forEach(iframe => {
-                    console.log(iframe.sandbox);
-                    
-                    iframe.removeAttribute('sandbox');
-                    iframe.setAttribute('allow', 'microphone *; camera *; autoplay *; fullscreen *');
+                    // iframe.removeAttribute('sandbox');
+                    iframe.setAttribute('allow', 'microphone *; camera *');
                 });
             };
         </script>
