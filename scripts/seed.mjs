@@ -1,13 +1,24 @@
+/**
+ * Seed script — uses environment variables, NEVER hardcoded credentials.
+ * Run with: FIREBASE_API_KEY=xxx node scripts/seed.mjs
+ * Or set up a .env.local file and source it first.
+ */
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+
 const firebaseConfig = {
-    apiKey: "REMOVED_USE_ENV_VAR",
-    authDomain: "amira-crm-final-3829.firebaseapp.com",
-    projectId: "amira-crm-final-3829",
-    storageBucket: "amira-crm-final-3829.firebasestorage.app",
-    messagingSenderId: "159992140995",
-    appId: "1:159992140995:web:8c64f1beb6c9ee926d7e76"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
+
+if (!firebaseConfig.apiKey) {
+    console.error("❌ Missing Firebase config. Copy .env.local and set NEXT_PUBLIC_FIREBASE_* vars.");
+    process.exit(1);
+}
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -68,12 +79,12 @@ const INITIAL_LEADS = [
 ];
 
 async function seed() {
-    console.log("Seeding leads to Firestore...");
+    console.log("🌱 Seeding leads to Firestore...");
     for (const lead of INITIAL_LEADS) {
         await setDoc(doc(db, "leads", lead.id), lead);
-        console.log(`Added lead: ${lead.name}`);
+        console.log(`✅ Added lead: ${lead.name}`);
     }
-    console.log("Seeding complete!");
+    console.log("🎉 Seeding complete!");
     process.exit(0);
 }
 
